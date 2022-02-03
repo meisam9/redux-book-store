@@ -1,0 +1,3 @@
+export const ADD_BOOK = "BOOK/ADD_BOOK";
+export const UPDATE_BOOK_STATE = "BOOK/UPDATE_STATE";
+export const SAGA_DELETE_BOOK = "BOOK/SAGA_DELETE_BOOK";
