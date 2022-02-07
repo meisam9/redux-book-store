@@ -22,16 +22,18 @@ export const Book = (props) => {
 					</tr>
 				</thead>
                 <tbody>
-                    {state.map((item,index)=>(
+                    {state.length? state.map((item,index)=>(
                         <tr key={index}>
                             <td>{item.title}</td>
                             <td>{item.date}</td>
-                            <td>{item.price}$</td>
+                            <td>$ {item.price}</td>
                             <td>{item.rate}</td>
                             <td>{`${item.writer.firstName} ${item.writer.lastName}`}</td>
                             <td><button className="btn btn-danger" onClick={()=>handleClick(item)}>Delete</button></td>
                         </tr>
-                    ))}
+                    )): <tr>
+                            <td>No Result</td>
+                        </tr>}
                 </tbody>
             </table>
     )

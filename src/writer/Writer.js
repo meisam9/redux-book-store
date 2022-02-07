@@ -1,8 +1,10 @@
 import { useSelector } from "react-redux"
+import { useHistory } from "react-router-dom";
 
 export const Writer = (props) => {
     const writers = useSelector((state)=>state.writer);
     const books = useSelector((state)=>state.book);
+    const history = useHistory()
     const getWriterBooks = (id) => {
         const bookCount = books.filter((item)=>item.writer.id === id);
         return bookCount.length
@@ -13,6 +15,10 @@ export const Writer = (props) => {
             message:`Are you sure to delete ${writer.firstName} ${writer.lastName} with him/her ${getWriterBooks(writer.id)} book(s)`,
             writer: writer,
         })
+    }
+
+    const handleEdit = (id) => {
+        history.push(`/writer/edit/${id}`)
     }
     return (
         <table className="table">
@@ -30,6 +36,7 @@ export const Writer = (props) => {
                             <td>{`${writer.firstName} ${writer.lastName}`}</td>
                             { <td >{getWriterBooks(writer.id)}</td> }
                             <td><button className="btn btn-danger" onClick={()=>handleClick(writer)}>Delete</button></td>
+                            <td><button className="btn btn-info" onClick={()=>handleEdit(writer.id)}>Edit</button></td>
                         </tr>
                     ))}
                 </tbody>

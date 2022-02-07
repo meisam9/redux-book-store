@@ -1,24 +1,30 @@
 
 import { BrowserRouter, Route, Switch } from "react-router-dom"
-import {WritersContainer} from "../writer/WritersContainer"
-import {App} from './App'
-import { AddWriter } from "../writer/components/WriterAdd";
-import { BookAdd } from "../book/components/bookAdd";
-import { Loading } from "./common/Loading";
+import { lazy, Suspense } from "react";
 import { Navbar } from "./Navbar";
-import { NotFound } from "./NotFound";
 
+// lazy loading routes
+const App = lazy(()=>import('./App'));
+const WritersContainer = lazy(()=>import('../writer/WritersContainer'));
+const AddWriter = lazy(()=>import('../writer/components/WriterAdd'));
+const BookAdd = lazy(()=>import('../book/components/bookAdd'));
+const EditWriter = lazy(()=>import('../writer/components/WriterEdit'));
+const NotFound = lazy(()=>import('./NotFound'));
 export const MainRouter = () => {
+
     return (
-        <BrowserRouter>
-            <Navbar />
-                <Switch>
-                    <Route exact path="/" component={App}/>
-                    <Route exact path="/writers" component={WritersContainer}/>
-                    <Route  path="/writer/add" component={AddWriter}/>
-                    <Route  path="/book/add" component={BookAdd}/>
-                    <Route path="*" component={NotFound}/>
-                </Switch>
-        </BrowserRouter>
+        <Suspense fallback={<div>Loading...</div>}>
+            <BrowserRouter>
+                <Navbar />
+                    <Switch>
+                        <Route exact path="/" component={App}/>
+                        <Route exact path="/writers" component={WritersContainer}/>
+                        <Route  path="/writer/add" component={AddWriter}/>
+                        <Route  path="/writer/edit/:id" component={EditWriter}/>
+                        <Route  path="/book/add" component={BookAdd}/>
+                        <Route path="*" component={NotFound}/>
+                    </Switch>
+            </BrowserRouter>
+        </Suspense>
     )
 }

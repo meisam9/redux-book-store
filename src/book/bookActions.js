@@ -1,4 +1,4 @@
-import { ADD_BOOK, SAGA_DELETE_BOOK, UPDATE_BOOK_STATE } from "./bookConstans"
+import { ADD_BOOK, SAGA_DELETE_BOOK, SAGA_FILTER_BOOK, SAGA_REMOVE_FILTER_BOOK, UPDATE_BOOK_STATE } from "./bookConstans"
 
 export const addBook = (book) => {
     return {
@@ -17,4 +17,15 @@ export const deleteBook = (item) => {
         type:SAGA_DELETE_BOOK,
         payload:item,
     }
+}
+
+export const filterBook = (filterItems) => {
+    return {
+        type:SAGA_FILTER_BOOK,
+        payload:filterItems,
+    }
+}
+
+export const removeFilterBooks = () => {
+    return {type:SAGA_REMOVE_FILTER_BOOK,}
 }

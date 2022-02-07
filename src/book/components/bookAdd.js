@@ -1,14 +1,17 @@
-import {  useState } from "react"
+import {  useCallback, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router-dom";
 import { Button } from "../../app/common/Button";
-import { addBook } from "../bookActions"
+import {Notification} from "../../app/common/Notification";
+import { addBook } from "../bookActions";
 
 
-export const BookAdd = () => {
+const BookAdd = () => {
     const writers = useSelector((state)=>state.writer);
     const dispatch = useDispatch();
     const history = useHistory();
+
+    //states
     const [book, setBook] = useState({
         title:'',
         writer:{
@@ -20,6 +23,10 @@ export const BookAdd = () => {
         rate:'',
         price: ' ',
     })
+    const [show, setShow] =useState(false);
+    const setClose = useCallback(() => setShow(false),[]); // passing to notification component to close the alert.
+    
+    //functions
     const handlGoToWriter = () => {
         history.push('/writer/add')
     }
@@ -44,6 +51,7 @@ export const BookAdd = () => {
         dispatch(addBook(book))
         document.querySelector('#title').value = " ";
         document.querySelector('#price').value = " ";
+        setShow(true);
       }
     return (
         <>
@@ -58,7 +66,7 @@ export const BookAdd = () => {
                     id="title"
                     name="title"
                     onChange={handleChange}
-                    value={book.title}
+                    
                     />
             </div>
             <div >
@@ -83,7 +91,7 @@ export const BookAdd = () => {
                     />
             </div>
             <div >
-                <label htmlFor="title">title</label>
+                <label htmlFor="date">publish date</label>
                 <br/>
                 <input 
                     type="date"
@@ -107,10 +115,13 @@ export const BookAdd = () => {
             </div>
         </div>
         <button type="button" className="btn btn-primary mt-2" onClick={handleClick}>add</button>
-    </form> : goToWriter()
+        <Notification show={show} message={'Book'} onClose={setClose} />
+    </form> : goToWriter() // if we dont have an author go to writer function runs, its warns you to pls add an author first.
         
         }
         </>
         
     )
 }
+
+export default BookAdd;

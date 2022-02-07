@@ -1,23 +1,23 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
+import { Notification } from "../../app/common/Notification";
 import { addWriter } from "../writerActions";
+import {randomId} from "../../app/common/Utils";
 
-export const AddWriter = () => {
+ const AddWriter = () => {
     const dispatch = useDispatch();
-    let randomId = () => {
-        let s4 = () => {
-            return Math.floor((1 + Math.random()) * 0x10000)
-                .toString(16)
-                .substring(1);
-        }
-        //return id of format 'aaaaaaaa
-        return s4() + s4() 
-    }
+
     const [form,setForm] = useState({
         id: randomId(),
         firstName: " ",
         lastName: " ",
     })
+    const [show, setShow] =useState(false);
+    const setClose = useCallback(() => setShow(false),[]); // passing to notification component to close the alert.
+
+    //functions 
+    
+    
     const handleChange = (e) => {
         e.preventDefault()
         const { name, value } = e.target
@@ -29,6 +29,7 @@ export const AddWriter = () => {
         document.querySelector('#lastName').value = " ";
         document.querySelector('#firstName').value = " ";
         setForm((prevform) => ({ ...prevform, id: randomId()}))
+        setShow(true)
     }
     return (
         <div className="container my-5">
@@ -53,7 +54,9 @@ export const AddWriter = () => {
   </div>
   <button className="btn btn-primary"  type="submit" onClick={handleSubmit}>submit </button>
         </form>
-
+        <Notification show={show} message={'Writer'} onClose={setClose}/>
         </div>
     )
 }
+
+export default AddWriter;
